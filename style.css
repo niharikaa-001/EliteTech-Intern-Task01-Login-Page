@@ -1,0 +1,446 @@
+html {
+    height: 100%;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
+  background-color: #ffffff;
+}
+
+.background-blur-container {
+    position: fixed; /* Fix it to the viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('background-img.png'); /* Your image */
+    background-size: cover;
+    background-position: center center;
+    filter: blur(2px); /* Adjust blur strength */
+    z-index: -1; /* Place it behind everything else */
+}
+
+/* Optional: Add a semi-transparent overlay to the background-blur-container */
+.background-blur-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay, adjust opacity */
+}
+
+.bg-img {
+  display: none;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    perspective: 1000px; /* For 3D transformations */
+}
+
+.form-box {
+    background: rgba(255, 255, 255, 0.98); /* Near opaque white with slight transparency for depth */
+    padding: 50px; /* Increased padding for a more substantial box */
+    /* margin: 50px; */
+    height: 380px;
+    border-radius: 25px; /* Even more rounded corners */
+    width: 400px; /* Wider box */
+    text-align: center;
+    animation: fadeInScale 1.2s ease-in-out forwards; /* New animation for a subtle scale effect */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35); /* Stronger, softer shadow for a floating effect */
+    backdrop-filter: blur(8px); /* Subtle blur behind the box if background image shows through */
+    transform-style: preserve-3d; /* For potential 3D effects within */
+    position: relative; /* Needed for pseudo-elements */
+    overflow: hidden; /* Ensure glowing border stays within bounds */
+}
+
+/* Pseudo-element for a glowing border effect */
+.form-box::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #007bff, #8a2be2, #00c4ff); /* Multi-color gradient for glow */
+    z-index: -2;
+    filter: blur(15px); /* Creates the glowing effect */
+    opacity: 0.7;
+    animation: glowEffect 3s infinite alternate; /* Animates the glow */
+}
+
+@keyframes glowEffect {
+    from {
+        transform: rotate(0deg) scale(1);
+        opacity: 0.7;
+    }
+    to {
+        transform: rotate(360deg) scale(1.05);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.form-box h2 {
+    margin-top: 10px;
+    color: #222; /* Darker text for better contrast */
+    margin-bottom: 30px; /* More space below title */
+    font-size: 3em; /* Even larger title */
+    font-weight: 800; /* Even bolder */
+    letter-spacing: -1px; /* Tighter letter spacing */
+    background: linear-gradient(90deg, #007bff, #00c4ff, #8a2be2); /* Gradient text for "Login" */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+    position: relative;
+    animation: textSlideIn 1s ease-out forwards;
+}
+
+@keyframes textSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+input {
+    display: block;
+    margin: 25px auto; /* Increased margin */
+    padding: 18px; /* Increased padding */
+    width: 90%;
+    border: 2px solid #e0e0e0; /* A slightly thicker, light grey border */
+    border-radius: 15px; /* More rounded input fields */
+    background: #ffffff; /* Pure white background for inputs */
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.05); /* More prominent inner shadow */
+    font-size: 19px; /* Slightly larger font */
+    color: #333;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.2s ease;
+}
+
+input::placeholder {
+    color: #a0a0a0; /* Lighter placeholder text color */
+}
+
+input:focus {
+    border-color: #007bff; /* Primary blue highlight on focus */
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.08), 0 0 0 5px rgba(0, 123, 255, 0.3); /* Stronger outer glow on focus */
+    outline: none; /* Remove default outline */
+    transform: translateY(-2px); /* Slight lift on focus */
+}
+
+button {
+    padding: 18px 40px; /* Increased padding */
+    background: linear-gradient(45deg, #007bff, #00c4ff); /* Gradient background for button */
+    color: white;
+    border: none;
+    border-radius: 20px; /* Even more rounded button */
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-size: 20px; /* Larger font */
+    font-weight: 700; /* Bolder text */
+    letter-spacing: 1px;
+    box-shadow: 0 12px 30px rgba(0, 123, 255, 0.45); /* More prominent button shadow */
+    margin-top: 18px; /* More space above button */
+    text-transform: uppercase; /* Uppercase text for button */
+    position: relative;
+    overflow: hidden;
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1) translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+    z-index: 1;
+}
+
+button:hover::after {
+    width: 200%;
+    height: 200%;
+    opacity: 1;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0056b3, #0099cc); /* Darker gradient on hover */
+    transform: translateY(-6px) scale(1.05); /* More pronounced lift and scale */
+    box-shadow: 0 18px 35px rgba(0, 123, 255, 0.6);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#switch {
+    margin-top: 30px; /* More space below button */
+    font-size: 17px;
+    color: #f3eeee; /* Slightly lighter text for switch */
+}
+
+#switch a {
+    color: #007bff; /* Primary blue for links */
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+#switch a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+    display: none;
+}
+
+#welcome-message {
+    text-align: center;
+    color: white;
+    font-size: 3.7em; /* Even larger for more impact */
+    font-weight: 800; /* Super bold */
+    text-shadow: 3px 3px 13px rgba(65, 68, 215, 0.95), /* Stronger, softer dark shadow */
+                 0 0 16px rgba(255, 255, 255, 0.6); /* Subtle white glow */
+    padding: 80px; /* Ample padding */
+    line-height: 1.1; /* Tighter line height for large text */
+    letter-spacing: -2px; /* Slight negative letter spacing for a compact, bold look */
+    perspective: 1000px;
+    position: relative; /* Needed for any pseudo-elements or absolute positioning */
+    overflow: hidden; /* Ensures text shadow doesn't get cut off */
+    transform: scale(1); /* Ensure it's not starting scaled down by other animations */
+    animation: welcomeFadeIn 1.5s ease-out forwards; /* New, gentler fadeIn for the whole block */
+}
+
+/* New Keyframe for welcome message block */
+@keyframes welcomeFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Font Animation (for individual letters) */
+.animated-text {
+    display: inline-block; /* Essential for span animations */
+    white-space: nowrap; /* Keeps words together during animation */
+    /* textPopUp animation will be applied by JS for the whole block or individual words */
+}
+
+.animated-text span {
+    opacity: 0;
+    transform: translateY(70px) scale(0.4); /* More pronounced initial transform */
+    display: inline-block;
+    animation: letterFadeIn 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Longer, bouncier animation */
+    
+    background: linear-gradient(45deg, #e2e6e8, #d316d9, #dee2e4); /* Gold, Pink, Purple gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.2s ease-out; /* Smooth subtle hover */
+}
+
+.animated-text span:hover {
+    transform: translateY(-5px) scale(1.1); /* Lift and grow on hover */
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8); /* Yellow glow on hover */
+}
+
+
+@keyframes textPopUp { /* This animation might be applied to .animated-text or individual words via JS */
+    from {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes letterFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(70px) scale(0.4);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Style for the "Go Back to Login" button */
+#backToLoginBtn {
+    padding: 12px 25px; /* Slightly smaller padding for a smaller feel */
+    margin-top: 50px;
+    /* Blue and pink combinational gradient */
+    background: linear-gradient(90deg, #db86cf, #3d57c8); /* Vibrant coral to teal */
+    color: rgb(234, 216, 216);
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Small, subtle white border */
+   
+    cursor: pointer;
+    font-size: 1.5em; /* Slightly smaller font */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    
+    /* Initial shadow based on the new colors */
+    box-shadow: 0 6px 15px rgba(78, 205, 196, 0.3); /* Teal-ish shadow */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    border-radius: 50px;
+
+    /* New styles for bottom positioning */
+    position: fixed; /* Fixes the button relative to the viewport */
+    bottom: 100px;    /* Distance from the bottom of the viewport */
+    left: 40%;       /* Start from the middle horizontally */
+   
+
+}
+
+#backToLoginBtn:hover {
+    /* Reverse gradient on hover */
+    background: linear-gradient(90deg, #4ECDC4, #FF6B6B);
+    transform: translateY(-3px) scale(1.02);
+    /* More pronounced shadow with a blend of the colors */
+    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.5); /* Pink-ish shadow on hover */
+}
+
+#backToLoginBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(78, 205, 196, 0.2);
+}
+
+
+
+/* Add this to your existing .form-box styles */
+.form-box {
+    /* ... existing styles ... */
+
+    border: 2px solid rgba(255, 255, 255, 0.4); /* Subtle, slightly transparent white border */
+    box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.35), /* Existing strong shadow */
+        0 0 0 8px rgba(255, 255, 255, 0.1); /* New, subtle outer glow/border effect */
+}
+
+
+/* New Top Alert Style - Pill Shaped & Animated */
+#custom-alert {
+    position: fixed;
+    top: 10px; /* Distance from the top */
+    left: 50%;
+    /* Start slightly above the viewport for the slide-down/bounce effect */
+    transform: translateX(-50%) translateY(-100px);
+    opacity: 0; /* Initially hidden */
+    visibility: hidden;
+    /* Transition for opacity and a bouncy transform effect */
+    transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+    /* Visual Styling */
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); /* Deep blue/purple gradient */
+    color: white;
+    padding: 15px 35px; /* More horizontal padding for the pill shape */
+    border-radius: 50px; /* Creates the pill shape */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Stronger, softer shadow */
+    font-size: 1.25em; /* Slightly larger font */
+    font-weight: 700; /* Bolder font */
+    letter-spacing: 0.5px;
+    z-index: 1000; /* Ensure it's above other elements */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between icon and message */
+    min-width: 200px; /* Ensure a readable width */
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border for definition */
+}
+
+#custom-alert.show {
+    opacity: 1;
+    visibility: visible;
+    /* Slide down to its final position at the top */
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Error state with a different gradient */
+#custom-alert.error {
+    background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%); /* Vibrant red/orange gradient for error */
+}
+
+/* Icon Styles */
+.alert-icon {
+    font-size: 2em; /* Slightly larger icon */
+    line-height: 1; /* Ensures vertical alignment */
+}
+
+/* Icons using content property (you might need to import a font icon library like Font Awesome for more options) */
+.alert-icon.success::before {
+    content: '\2714'; /* A bold checkmark character */
+}
+
+.alert-icon.error::before {
+    content: '\2718'; /* A bold cross mark character */
+}
+
+
+
+/* Password Visibility Toggle */
+.password-input-container {
+    position: relative;
+    width: 99%; /* Match your input width */
+    margin: 25px auto; /* Match your input margin */
+}
+
+.password-input-container input {
+    /* Reset margin and width as they are handled by the container */
+    width: 100%;
+    margin: 0;
+    padding-right: 25px; /* Make space for the icon */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 15px; /* Adjust as needed for spacing from the right edge */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #a0a0a0; /* Default icon color */
+    font-size: 24px; /* Icon size */
+    transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+    color: #555; /* Darken on hover */
+}
